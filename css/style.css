@@ -1,7 +1,34 @@
+:root {
+  font-size: 14px;
+  --color-text: #424242;
+  --color-bg: #190e17;
+  --color-link: #999;
+  --color-link-hover: #fff;
+  --color-primary: #88e7c4;
+  --color-secondary: #c5517d;
+  --color-description: #3b343a;
+}
+
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+}
+
+html.lenis {
+  height: auto;
+}
+
+body {
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  font-family: pragmatica-extended, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
 }
 
 .webgl {
@@ -10,4 +37,104 @@
   left: 0;
   width: 100vw;
   height: 100vh;
+  z-index: -1;
+}
+
+/* 
+Content
+*/
+.content {
+  --column-gap: 2rem;
+  --row-gap: 10vh;
+  --mwidth: 400px;
+  --columns: 3;
+  display: grid;
+  max-width: calc(
+    var(--mwidth) * var(--columns) + (var(--columns) - 1) * var(--column-gap)
+  );
+  width: 100%;
+  margin: 0 auto;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(calc(var(--mwidth) / 2), var(--mwidth))
+  );
+  grid-column-gap: var(--column-gap);
+  grid-row-gap: var(--row-gap);
+  justify-content: center;
+  padding: 4rem 0 20rem;
+  margin-top: 13rem;
+}
+
+/* 
+Item
+*/
+.item {
+  padding: 2rem;
+  align-self: flex-end;
+  display: grid;
+  grid-template-areas:
+    '... ... ...'
+    'pretitle pretitle pretitle'
+    'title title title'
+    '... counter counter'
+    '... description ...';
+  grid-template-columns: 10% 1fr 1rem;
+  grid-template-rows: 3rem auto 1fr 2rem auto;
+}
+
+.item__fig {
+  position: relative;
+  max-width: 100%;
+  grid-area: 1 / 2 / 4 / 3;
+}
+
+.item__aspect {
+  padding-top: var(--aspect);
+}
+
+.item__img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  max-width: 100%;
+  display: none;
+}
+
+.item__pretitle {
+  grid-area: pretitle;
+  font-size: 1rem;
+  font-weight: 400;
+  font-family: vortice-concept, sans-serif;
+  color: var(--color-secondary);
+  margin-bottom: 0.75rem;
+  pointer-events: none;
+}
+
+.item__title {
+  grid-area: title;
+  font-size: 2.5rem;
+  font-weight: 400;
+  font-family: vortice-concept, sans-serif;
+  -webkit-text-stroke: 1px var(--color-primary);
+  -webkit-text-fill-color: transparent;
+  pointer-events: none;
+}
+
+.item__counter {
+  grid-area: counter;
+  align-self: flex-end;
+  justify-self: flex-end;
+  font-size: 3rem;
+  font-weight: 400;
+  font-family: vortice-concept, sans-serif;
+  color: var(--color-primary);
+  pointer-events: none;
+}
+
+.item__description {
+  grid-area: description;
+  max-width: 200px;
+  font-size: 0.85rem;
+  color: var(--color-description);
+  pointer-events: none;
 }

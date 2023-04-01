@@ -1,22 +1,29 @@
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import Lenis from '@studio-freight/lenis';
 
-import fragmentShader from '../glsl/fragmentShader.glsl';
-import vertexShader from '../glsl/vertexShader.glsl';
-
+import Plane from './Plane';
 export default class Scene {
   constructor(canvas) {
     this.canvas = canvas;
-    this.clock = new THREE.Clock();
     this.width = window.innerWidth;
     this.height = window.innerHeight;
+    this.clock = new THREE.Clock();
 
+    this.initScroll();
+    this.initThree();
+    this.initPlanes();
+    this.addEvents();
+    this.update();
+  }
+
+  initThree() {
     // Scene
     this.scene = new THREE.Scene();
 
     // Camera
-    const perspective = 800;
-    const fov = 2 * Math.atan(this.height / 2 / perspective) * (180 / Math.PI);
+    this.perspective = 800;
+    const fov =
+      2 * Math.atan(this.height / 2 / this.perspective) * (180 / Math.PI);
 
     this.camera = new THREE.PerspectiveCamera(
       fov,
@@ -24,7 +31,8 @@ export default class Scene {
       0.1,
       1000
     );
-    this.camera.position.z = perspective;
+
+    this.camera.position.z = this.perspective;
 
     // Renderer
     this.renderer = new THREE.WebGLRenderer({
@@ -33,34 +41,66 @@ export default class Scene {
       antialias: true,
     });
     this.renderer.setSize(this.width, this.height);
+    this.renderer.setPixelRatio(1);
+  }
 
-    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+  initScroll() {
+    const lenis = new Lenis();
 
-    const textureLoader = new THREE.TextureLoader();
-    const texture = textureLoader.load('/img/img-03.jpg');
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
 
-    // Object
-    this.geometry = new THREE.PlaneGeometry(400, 600, 16, 16);
-    this.material = new THREE.ShaderMaterial({
-      fragmentShader: fragmentShader,
-      vertexShader: vertexShader,
-      uniforms: {
-        uTime: { value: 0 },
-        uTexture: { value: texture },
-      },
-      side: THREE.DoubleSide,
+    requestAnimationFrame(raf);
+
+    this.lenis = lenis;
+  }
+
+  initPlanes() {
+    const [...items] = document.querySelectorAll('.item');
+
+    this.planes = items.map((el) => new Plane(el, this));
+  }
+
+  addEvents() {
+    this.onResize();
+    this.onScroll();
+  }
+
+  onResize() {
+    window.addEventListener('resize', () => {
+      this.width = window.innerWidth;
+      this.height = window.innerHeight;
+
+      this.renderer.setSize(this.width, this.height);
+      this.renderer.setPixelRatio(1);
+
+      this.camera.aspect = this.width / this.height;
+      this.camera.fov =
+        2 * Math.atan(this.height / 2 / this.perspective) * (180 / Math.PI);
+      this.camera.updateProjectionMatrix();
+
+      for (const plane of this.planes) {
+        plane.onResize(this.width, this.height);
+      }
     });
-    this.mesh = new THREE.Mesh(this.geometry, this.material);
+  }
 
-    this.scene.add(this.mesh);
-
-    this.update();
+  onScroll() {
+    this.lenis.on('scroll', (e) => {
+      for (const plane of this.planes) {
+        plane.onScroll(e.scroll);
+      }
+    });
   }
 
   update() {
     const elaspedTime = this.clock.getElapsedTime();
 
-    this.material.uniforms.uTime.value = elaspedTime;
+    for (const plane of this.planes) {
+      plane.update(elaspedTime);
+    }
 
     this.renderer.render(this.scene, this.camera);
 

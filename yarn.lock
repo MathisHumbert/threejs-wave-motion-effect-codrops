@@ -127,6 +127,11 @@
     estree-walker "^2.0.1"
     picomatch "^2.2.2"
 
+"@studio-freight/lenis@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@studio-freight/lenis/-/lenis-1.0.6.tgz#d22494bc1c137ba0854398d251a6c871a18a529b"
+  integrity sha512-g/cTDwra/6WsCGK6KTyfOlTAwJA5xFCJtRFNGM+Ge/oIOg2emLJKV+yTFATekjuCX4r7W5tcBp8LcQ2b+P6yuQ==
+
 acorn@^7.1.1:
   version "7.4.1"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.4.1.tgz#feaed255973d2e77555b83dbc08851a6c63520fa"
@@ -424,6 +429,11 @@ graceful-fs@^4.1.2:
   version "4.2.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.11.tgz#4183e4e8bf08bb6e05bbb2f7d2e0c8f712ca40e3"
   integrity sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==
+
+gsap@^3.11.5:
+  version "3.11.5"
+  resolved "https://registry.yarnpkg.com/gsap/-/gsap-3.11.5.tgz#97ef65091f43868be387803f9db277e8cd5bd041"
+  integrity sha512-Q89nKCLgoX5xUjznh9LcaIUkz54k1voNucT1Rpf9SJNFIQznBwFqt5qUUQbeVInFyN/n18OUJkpeI6CNEDt74w==
 
 has@^1.0.3:
   version "1.0.3"
