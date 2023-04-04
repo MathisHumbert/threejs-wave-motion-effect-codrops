@@ -2,9 +2,18 @@ import * as THREE from 'three';
 import Lenis from '@studio-freight/lenis';
 
 import Plane from './Plane';
+
+import waveXVertex from '../glsl/waveX/vertex.glsl';
+import waveXFragment from '../glsl/waveX/fragment.glsl';
+import waveYVertex from '../glsl/waveY/vertex.glsl';
+import waveYFragment from '../glsl/waveY/fragment.glsl';
+import revealVertex from '../glsl/reveal/vertex.glsl';
+import revealFragment from '../glsl/reveal/fragment.glsl';
+
 export default class Scene {
-  constructor(canvas) {
+  constructor(canvas, textures) {
     this.canvas = canvas;
+    this.textures = textures;
     this.width = window.innerWidth;
     this.height = window.innerHeight;
     this.clock = new THREE.Clock();
@@ -60,7 +69,22 @@ export default class Scene {
   initPlanes() {
     const [...items] = document.querySelectorAll('.item');
 
-    this.planes = items.map((el) => new Plane(el, this));
+    this.planes = items.map((el, i) => {
+      let vertex, fragment;
+
+      if (i > 5) {
+        vertex = waveYVertex;
+        fragment = waveYFragment;
+      } else if (i > 2) {
+        vertex = revealVertex;
+        fragment = revealFragment;
+      } else {
+        vertex = waveXVertex;
+        fragment = waveXFragment;
+      }
+
+      return new Plane(el, vertex, fragment, this);
+    });
   }
 
   addEvents() {

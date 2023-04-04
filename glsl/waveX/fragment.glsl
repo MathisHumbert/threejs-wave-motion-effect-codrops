@@ -11,6 +11,5 @@ void main(){
   float g = texture2D(uTexture, vUv + vec2(0., 0.) +  uHover * wave * 0.0).g;
   float b = texture2D(uTexture, vUv + vec2(0., 0.) +   uHover * wave *  -0.02).b;
 
-  vec4 texture = vec4(r, g, b, 1.);
-  gl_FragColor = texture;
+  gl_FragColor = vec4(r, g, b, 1.);
 }

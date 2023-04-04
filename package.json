@@ -13,8 +13,10 @@
   },
   "dependencies": {
     "@studio-freight/lenis": "^1.0.6",
+    "fontfaceobserver": "^2.3.0",
     "glsl-noise": "^0.0.0",
     "gsap": "^3.11.5",
+    "imagesloaded": "^5.0.0",
     "three": "^0.151.2",
     "vite-plugin-glslify": "^2.0.1"
   }

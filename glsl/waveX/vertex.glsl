@@ -13,9 +13,7 @@ void main(){
   float noiseAmp = 20.; 
   
   pos.z += snoise3(vec3(pos.x * noiseFreq + uTime, pos.y, 0. )) * noiseAmp * uHover;
-  // vWave = pos.z * 0.0025;
   vWave = pos.z;
-
   pos.z *= 3.;
 
   vUv = uv;

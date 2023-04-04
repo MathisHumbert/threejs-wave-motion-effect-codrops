@@ -1,12 +1,11 @@
 import * as THREE from 'three';
 import gsap from 'gsap';
 
-import fragmentShader from '../glsl/fragmentShader.glsl';
-import vertexShader from '../glsl/vertexShader.glsl';
-
 export default class Plane {
-  constructor(plane, scene) {
+  constructor(plane, vertex, fragment, scene) {
     this.plane = plane;
+    this.vertex = vertex;
+    this.fragment = fragment;
     this.scene = scene.scene;
     this.width = scene.width;
     this.height = scene.height;
@@ -16,8 +15,7 @@ export default class Plane {
     this.fig = this.plane.querySelector('.item__fig');
     this.img = this.plane.querySelector('.item__img');
 
-    const textureLoader = new THREE.TextureLoader();
-    this.texture = textureLoader.load(this.img.attributes.src.value);
+    this.texture = scene.textures[this.img.attributes.src.value];
 
     this.initPlane();
     this.addEvents();
@@ -26,15 +24,13 @@ export default class Plane {
   initPlane() {
     this.geometry = new THREE.PlaneGeometry(1, 1, 16, 16);
     this.material = new THREE.ShaderMaterial({
-      fragmentShader: fragmentShader,
-      vertexShader: vertexShader,
-      // wireframe: true,
+      fragmentShader: this.fragment,
+      vertexShader: this.vertex,
       uniforms: {
         uTime: { value: 0 },
         uTexture: { value: this.texture },
         uHover: { value: 0 },
       },
-      // wireframe: true,
       side: THREE.DoubleSide,
     });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
